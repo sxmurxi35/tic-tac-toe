@@ -8,7 +8,7 @@ function Player(sign) {
   };
 }
 
-const game = () => {
+const game = (() => {
   const gameBoard = () => {
     let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -32,4 +32,26 @@ const game = () => {
       resetBoard,
     };
   };
-};
+
+  const gameController = () => {
+    const playerX = Player("x");
+    const playerO = Player("o");
+    let turn = 0;
+
+    const activePlayer = () => {
+      if (turn % 2 == 0) {
+        return playerX;
+      } else return playerO;
+    };
+
+    const increaseTurn = () => turn++;
+  };
+
+  return {
+    gameBoard,
+    gameController,
+  };
+})();
+
+const gameControllerTest = game.gameController();
+
