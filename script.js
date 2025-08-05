@@ -38,6 +38,8 @@ const game = (() => {
     const playerO = Player("o");
     let turn = 0;
 
+    const board = gameBoard();
+
     const activePlayer = () => {
       if (turn % 2 == 0) {
         return playerX;
@@ -45,6 +47,28 @@ const game = (() => {
     };
 
     const increaseTurn = () => turn++;
+
+    const fieldCheck = (index) => {
+      if (board.getField(index) === "") {
+        return true;
+      } else return false;
+    };
+
+    const makeMove = (index) => {
+      const activeSign = () => activePlayer().getSign();
+
+      if (fieldCheck(index) === false) {
+        return console.log("Please pick another field");
+      }
+
+      board.setField(index, activeSign());
+      console.log(board.getField(index));
+      increaseTurn();
+    };
+
+    return {
+      makeMove,
+    };
   };
 
   return {
@@ -55,3 +79,5 @@ const game = (() => {
 
 const gameControllerTest = game.gameController();
 
+gameControllerTest.makeMove(0);
+gameControllerTest.makeMove(1);
