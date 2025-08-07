@@ -1,0 +1,22 @@
+/* --------------- WHOLE PAGE --------------- */
+.page-grid {
+  display: grid;
+  grid-template-rows: 80px 1fr 60px;
+}
+/* --------------- HEADER --------------- */
+/* --------------- MAIN --------------- */
+/* --------------- GAMEBOARD --------------- */
+.gameboard {
+    width: 40vw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.gameboard-field {
+  padding-top: 100%;
+}
+
+.gameboard-field:hover {
+  background-color: aquamarine;
+}

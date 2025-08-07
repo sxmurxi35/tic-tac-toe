@@ -27,6 +27,7 @@ const game = (() => {
     };
 
     return {
+      board,
       getField,
       setField,
       resetBoard,
@@ -107,12 +108,13 @@ const game = (() => {
       }
 
       board.setField(index, activeSign());
+      console.log(turn);
       checkWinner(index);
       if (winner) {
         console.log(`${winner} won the game!`);
       }
-      console.log(board.getField(index));
       increaseTurn();
+      console.log(index, board.getField(index));
     };
 
     const resetGame = () => {
@@ -122,8 +124,10 @@ const game = (() => {
     };
 
     return {
+      board,
       makeMove,
       resetGame,
+      activeSign,
     };
   };
 
@@ -133,4 +137,26 @@ const game = (() => {
   };
 })();
 
-const gameControllerTest = game.gameController();
+const displayController = (() => {
+  const controller = game.gameController();
+  const pageGameboard = document.querySelector(".gameboard");
+
+  let targetField;
+
+  pageGameboard.addEventListener("click", (e) => {
+    targetField = Number(e.target.id);
+
+    controller.makeMove(targetField);
+  });
+
+  pageGameboard.addEventListener("mouseover", (e) => {
+    const field = document.getElementById(e.target.id);
+    field.textContent = controller.activeSign();
+  });
+
+  pageGameboard.addEventListener("mouseout", (e) => {
+    const field = document.getElementById(e.target.id);
+    const boardField = controller.board.getField(Number(e.target.id));
+    field.textContent = boardField;
+  });
+})();
