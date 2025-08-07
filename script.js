@@ -98,6 +98,9 @@ const game = (() => {
     };
 
     const makeMove = (index) => {
+      if (turn > 10 && winner == undefined)
+        console.error("Error occured. Please refresh the page.");
+
       if (winner !== undefined) return console.log(`Please reset the game!`);
       if (fieldCheck(index) === false) {
         return console.log("Please pick another field");
@@ -105,15 +108,22 @@ const game = (() => {
 
       board.setField(index, activeSign());
       checkWinner(index);
-      if (turn == 99) {
+      if (winner) {
         console.log(`${winner} won the game!`);
       }
       console.log(board.getField(index));
       increaseTurn();
     };
 
+    const resetGame = () => {
+      board.resetBoard();
+      turn = 0;
+      winner = undefined;
+    };
+
     return {
       makeMove,
+      resetGame,
     };
   };
 
