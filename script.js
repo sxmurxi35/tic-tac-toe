@@ -57,7 +57,7 @@ const game = (() => {
       } else return false;
     };
 
-    let winner = undefined;
+    let winner = "";
 
     const checkWinner = (index) => {
       const winConditions = [
@@ -82,7 +82,7 @@ const game = (() => {
         );
 
       if (conditionsCheck == true) {
-        const player = activePlayer().getSign();
+        const player = activeSign();
 
         switch (player) {
           case "x":
@@ -96,13 +96,15 @@ const game = (() => {
             break;
         }
       }
+
+      console.log(winner);
     };
 
     const makeMove = (index) => {
-      if (turn > 10 && winner == undefined)
+      if (turn > 10 && winner == "")
         console.error("Error occured. Please refresh the page.");
 
-      if (winner !== undefined) return console.log(`Please reset the game!`);
+      if (winner !== "") return console.log(`Please reset the game!`);
       if (fieldCheck(index) === false) {
         return console.log("Please pick another field");
       }
@@ -115,19 +117,23 @@ const game = (() => {
       }
       increaseTurn();
       console.log(index, board.getField(index));
+      console.log(winner);
     };
 
     const resetGame = () => {
       board.resetBoard();
       turn = 0;
-      winner = undefined;
+      winner = "";
     };
+
+    const gameWon = () => (winner !== "" ? true : false);
 
     return {
       board,
       makeMove,
       resetGame,
       activeSign,
+      gameWon,
     };
   };
 
@@ -141,22 +147,29 @@ const displayController = (() => {
   const controller = game.gameController();
   const pageGameboard = document.querySelector(".gameboard");
 
-  let targetField;
-
   pageGameboard.addEventListener("click", (e) => {
-    targetField = Number(e.target.id);
+    console.log(e.target.id);
+    let targetField = Number(e.target.id);
+    if (targetField == null) return;
+
+    if (!controller.gameWon())
+      document.getElementById(e.target.id).classList.add("clicked");
 
     controller.makeMove(targetField);
   });
 
   pageGameboard.addEventListener("mouseover", (e) => {
+    if (e.target.id == null || e.target.id == "") return;
+
     const field = document.getElementById(e.target.id);
-    field.textContent = controller.activeSign();
+    if (!controller.gameWon()) field.textContent = controller.activeSign();
   });
 
   pageGameboard.addEventListener("mouseout", (e) => {
+    if (e.target.id == null || e.target.id == "") return;
+
     const field = document.getElementById(e.target.id);
     const boardField = controller.board.getField(Number(e.target.id));
-    field.textContent = boardField;
+    if (!controller.gameWon()) field.textContent = boardField;
   });
 })();
