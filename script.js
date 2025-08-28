@@ -81,6 +81,12 @@ const game = (() => {
           )
         );
 
+      const winnerMsg = () => {
+        const winnerMsgSelector = document.querySelector(".game-result");
+        winnerMsgSelector.textContent = `${winner} won the game!`;
+        winnerMsgSelector.style.opacity = 100;
+      };
+
       if (conditionsCheck == true) {
         const player = activeSign();
 
@@ -88,11 +94,13 @@ const game = (() => {
           case "x":
             winner = "Player X";
             turn = 99;
+            winnerMsg();
             break;
 
           case "o":
             winner = "Player O";
             turn = 99;
+            winnerMsg();
             break;
         }
       }
@@ -146,6 +154,7 @@ const game = (() => {
 const displayController = (() => {
   const controller = game.gameController();
   const pageGameboard = document.querySelector(".gameboard");
+  const resetButton = document.querySelector(".reset-button");
 
   pageGameboard.addEventListener("click", (e) => {
     console.log(e.target.id);
@@ -162,7 +171,8 @@ const displayController = (() => {
     if (e.target.id == null || e.target.id == "") return;
 
     const field = document.getElementById(e.target.id);
-    if (!controller.gameWon()) field.textContent = controller.activeSign();
+    if (!controller.gameWon() && e.target.textContent == "")
+      field.textContent = controller.activeSign();
   });
 
   pageGameboard.addEventListener("mouseout", (e) => {
@@ -171,5 +181,17 @@ const displayController = (() => {
     const field = document.getElementById(e.target.id);
     const boardField = controller.board.getField(Number(e.target.id));
     if (!controller.gameWon()) field.textContent = boardField;
+  });
+
+  resetButton.addEventListener("click", () => {
+    controller.resetGame();
+    const gameResult = document.querySelector(".game-result");
+    gameResult.textContent = "Noone won yet";
+    gameResult.style.opacity = 0;
+
+    for (let i = 0; i < 9; i++) {
+      document.getElementById(i).textContent = "";
+      document.getElementById(i).classList.remove("clicked");
+    }
   });
 })();

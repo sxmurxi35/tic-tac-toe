@@ -101,6 +101,35 @@ body {
   border-radius: 0 0 15px 0;
 }
 
+/* --------------- RESET BUTTON --------------- */
+
 .reset-button {
+  font-family: Rubik;
+  color: #fff6e7;
+  font-size: 1.8rem;
+  font-weight: 900;
+  
   margin-top: 50px;
+  padding: 7px 15px;
+
+  background-color: #14213d;
+  border: none;
+  border-radius: 7px;
+
+  transition: all 0.2s;
+}
+
+.reset-button:hover, .reset-button:active{
+  background-color: #182644;
+}
+
+/* --------------- WINNER MESSAGE --------------- */
+.game-result {
+  font-family: Rubik;
+  color: #fff6e7;
+  font-size: 2.4rem;
+  opacity: 0;
+  cursor: default;
+
+  margin-bottom: 2.5rem;
 }
